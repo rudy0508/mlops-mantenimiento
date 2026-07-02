@@ -1,0 +1,12 @@
+data/
+artifacts/
+reportes/
+mlruns/
+mlflow.db
+pipeline_run.log
+__pycache__/
+*.pyc
+*.pkl
+*.csv
+*.db
+.env

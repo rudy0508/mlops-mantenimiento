@@ -1,0 +1,45 @@
+main:
+  project_name: mantenimiento-predictivo-mlflow
+  experiment_name: predictive_maintenance
+  mlflow_tracking_uri: mlruns
+  random_state: 42
+
+  execute_steps:
+    - download
+    - preprocess
+    - segregate
+    - check_data
+    - random_forest
+    - evaluate
+    - drift
+
+data:
+  # Dataset: AI4I 2020 Predictive Maintenance — UCI Machine Learning Repository
+  # https://archive.ics.uci.edu/dataset/601/ai4i+2020+predictive+maintenance+dataset
+  # 10,000 muestras | 339 fallas (~3.4%) | descarga directa sin credenciales
+  raw_path:   data/maintenance_raw.csv
+  clean_path: data/maintenance_clean.csv
+  train_path: data/maintenance_train.csv
+  test_path:  data/maintenance_test.csv
+  test_size:  0.20
+
+model:
+  n_estimators:        [100, 200, 300]
+  max_depth:           [5, 8, 10]
+  min_samples_split:   [2, 5, 10]
+  cv_folds:            5
+  scoring:             recall          # Prioridad: no perder ninguna falla real
+  # quality gate: falso negativo = falla no detectada = costo muy alto
+  recall_threshold:    0.85
+  auc_threshold:       0.85
+
+drift:
+  reference_path:  data/maintenance_train.csv
+  current_path:    data/maintenance_test.csv
+  drift_threshold: 0.30
+
+serve:
+  host: 0.0.0.0
+  port: 8002
+  model_name: PredictiveMaintenanceModel
+  model_stage: Production
