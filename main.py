@@ -53,7 +53,7 @@ def ejecutar_paso(nombre: str, cmd: list) -> tuple[bool, float]:
     inicio = time.time()
     log.info(">>> Iniciando: %s", nombre)
     env = os.environ.copy()
-    env["MLFLOW_TRACKING_URI"] = "sqlite:///mlflow.db"
+    env["MLFLOW_TRACKING_URI"] = os.environ.get("MLFLOW_TRACKING_URI", "file:///app/mlruns")
     result = subprocess.run(cmd, capture_output=False, env=env)
     dur = round(time.time() - inicio, 2)
     ok = result.returncode == 0
