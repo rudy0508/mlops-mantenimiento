@@ -9,6 +9,6 @@ COPY . .
 
 RUN mkdir -p data artifacts reportes mlruns
 
-ENV MLFLOW_TRACKING_URI=sqlite:///mlflow.db
+ENV MLFLOW_TRACKING_URI=file:///app/mlruns
 
 CMD ["python", "main.py", "--sintetico"]
