@@ -28,9 +28,8 @@ services:
       - ./artifacts:/app/artifacts
       - ./reportes:/app/reportes
       - ./mlruns:/app/mlruns
-      - ./mlflow.db:/app/mlflow.db
     environment:
-      - MLFLOW_TRACKING_URI=sqlite:///mlflow.db
+      - MLFLOW_TRACKING_URI=file:///app/mlruns
     command: python main.py --sintetico
     profiles:
       - train
