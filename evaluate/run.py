@@ -91,7 +91,7 @@ if __name__ == "__main__":
     print(f"\n  Fallas detectadas: {tp}/{tp+fn} ({tp/(tp+fn)*100:.1f}%)")
     print("\n" + classification_report(y_test, y_pred, target_names=["Normal", "Falla"]))
 
-    mlflow.set_tracking_uri(args.mlflow_uri or "sqlite:///mlflow.db")
+    mlflow.set_tracking_uri(args.mlflow_uri or os.environ.get("MLFLOW_TRACKING_URI", "file:///app/mlruns"))
     mlflow.set_experiment(args.experiment_name)
     with mlflow.start_run(run_name="evaluate_maintenance"):
         mlflow.log_metrics(metricas)

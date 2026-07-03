@@ -59,7 +59,7 @@ if __name__ == "__main__":
 
     log.info("Train: %d filas | Fallas: %d (%.2f%%)", len(df), y.sum(), y.mean() * 100)
 
-    mlflow.set_tracking_uri(args.mlflow_uri or "sqlite:///mlflow.db")
+    mlflow.set_tracking_uri(args.mlflow_uri or os.environ.get("MLFLOW_TRACKING_URI", "file:///app/mlruns"))
     mlflow.set_experiment(args.experiment_name)
 
     param_grid = {
